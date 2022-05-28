@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:coffe_admin/Dialogs/EditCarouselDialog.dart';
-import 'package:coffe_admin/controllers/CoffeHouseObject.dart';
-import 'package:coffe_admin/utils/Notifications/NotificationController.dart';
+import '/Dialogs/EditCarouselDialog.dart';
+import '/controllers/CoffeHouseObject.dart';
+import '/utils/Notifications/NotificationController.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,28 +33,7 @@ class MyWidget extends State<Carousel> {
               ),
             ))
         .toList();
-    if (imagesWidget.isEmpty) {
-      imagesWidget.add(Container(
-        child: GestureDetector(
-          child: Icon(
-            Icons.add_a_photo,
-            size: height / 3,
-            color: Colors.red,
-          ),
-          onTap: () {
-            NotificationController ntf = NotificationController();
-            ntf.showNotification();
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return EditCarouselDialog(
-                    Provider.of<CoffeHouse>(context, listen: true).photos);
-              },
-            );
-          },
-        ),
-      ));
-    }
+
     return CarouselSlider(
         items: imagesWidget,
         carouselController: _controller,

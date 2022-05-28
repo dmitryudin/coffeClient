@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffe_admin/MyWidgets/AddPicture.dart';
-import 'package:coffe_admin/utils/Network/MultiPart.dart';
-import 'package:coffe_admin/controllers/CoffeHouseObject.dart';
-import 'package:coffe_admin/utils/Network/RestController.dart';
+import '/MyWidgets/AddPicture.dart';
+import '/utils/Network/MultiPart.dart';
+import '/controllers/CoffeHouseObject.dart';
+import '/utils/Network/RestController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

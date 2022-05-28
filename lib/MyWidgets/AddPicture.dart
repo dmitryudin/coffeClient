@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffe_admin/utils/Network/MultiPart.dart';
-import 'package:coffe_admin/utils/Network/RestController.dart';
+import '/utils/Network/MultiPart.dart';
+import '/utils/Network/RestController.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

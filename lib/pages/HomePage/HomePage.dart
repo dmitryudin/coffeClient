@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffe_admin/Dialogs/EditCarouselDialog.dart';
-import 'package:coffe_admin/MyWidgets/Carousel.dart';
-import 'package:coffe_admin/MyWidgets/DishView.dart';
-import 'package:coffe_admin/MyWidgets/NewDishWidget.dart';
-import 'package:coffe_admin/controllers/CoffeHouseObject.dart';
-import 'package:coffe_admin/utils/Network/RestController.dart';
+import '/Dialogs/EditCarouselDialog.dart';
+import '/MyWidgets/Carousel.dart';
+import '/MyWidgets/DishView.dart';
+import '/controllers/CoffeHouseObject.dart';
+import '/utils/Network/RestController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,6 @@ class HomePage extends StatelessWidget {
       cof.add(DishView(coffe, key: UniqueKey()));
     }
 
-    cof.add(NewDishWidget());
     int i = -2;
     // TODO: implement build
     return CustomScrollView(slivers: <Widget>[
@@ -40,22 +38,6 @@ class HomePage extends StatelessWidget {
                 left: 0,
                 right: 0,
                 bottom: 0),
-            Positioned(
-              child: IconButton(
-                  icon: Icon(Icons.edit_outlined, color: Colors.red),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return EditCarouselDialog(
-                            Provider.of<CoffeHouse>(context, listen: true)
-                                .photos);
-                      },
-                    );
-                  }),
-              top: 20,
-              right: 0,
-            ),
             Positioned(
               child: Container(
                 height: 20,

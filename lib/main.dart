@@ -1,13 +1,15 @@
-import 'package:coffe_admin/pages/HomePage/HomePage.dart';
+import '/pages/HomePage/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controllers/CoffeHouseObject.dart';
-import 'package:coffe_admin/pages/Orders/Orders.dart';
-import 'package:coffe_admin/controllers/CoffeHouseObject.dart';
+import 'controllers/BasketObject.dart';
+import '/pages/Orders/Orders.dart';
+import '/controllers/CoffeHouseObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/HomePage/HomePage.dart';
+import 'pages/BasketPage/BasketPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +22,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => CoffeHouse())],
+        providers: [
+          ChangeNotifierProvider(create: (context) => CoffeHouse()),
+          ChangeNotifierProvider(create: (context) => BasketObject())
+        ],
         child: MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
@@ -60,7 +65,7 @@ class MyWidget extends State {
   int index = 0;
   List<Widget> Screens = [
     HomePage(),
-    HomePage(),
+    BasketPage(),
     Orders(),
   ];
 
@@ -77,15 +82,15 @@ class MyWidget extends State {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Кофейня',
+            label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.assessment),
-            label: 'Заказы',
+            icon: Icon(Icons.shopping_basket),
+            label: 'Корзина',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'История заказов',
+            label: 'Профиль',
           ),
         ],
       ),

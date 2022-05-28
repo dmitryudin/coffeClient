@@ -58,34 +58,10 @@ class CoffeHouse with ChangeNotifier {
     name = json['name'];
     phone = json['phone'];
     email = json['email'];
-    //description = json['description'];
+    description = json['description'];
     address = json['address'];
     List d = json['photos'];
     photos = d.map((e) => e.toString()).toList();
-
-    notifyListeners();
-  }
-
-  void createCoffe(Coffe coffe) {
-    RestController().sendPostRequest(
-        onComplete: ({required String data}) {
-          getCoffes();
-        },
-        onError: ({required String data}) {},
-        controller: 'create_coffe',
-        data: coffe.toJson());
-  }
-
-  void deleteCoffe(Coffe coffe) {
-    print(coffe.id);
-    coffes.remove(coffe);
-    RestController().sendPostRequest(
-        onComplete: ({required String data}) {
-          getCoffes();
-        },
-        onError: ({required String data}) {},
-        controller: 'coffe_delete',
-        data: '{"id":' + coffe.id.toString() + '}');
 
     notifyListeners();
   }

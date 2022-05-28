@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:coffe_admin/configuration/NetworkConfiguration.dart';
+import '/configuration/NetworkConfiguration.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 
