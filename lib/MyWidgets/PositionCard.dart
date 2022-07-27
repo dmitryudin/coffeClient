@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controllers/DishObject.dart';
+import '../controllers/CoffeObject.dart';
 import '../controllers/BasketObject.dart';
 
 class PositionCard extends StatefulWidget {
@@ -16,12 +16,16 @@ class PositionCard extends StatefulWidget {
 class _PositionCardState extends State<PositionCard> {
   Coffe coffe;
   String suppliments = '';
+
   _PositionCardState(this.coffe) {
     for (Property item in coffe.properties) {
-      suppliments = suppliments + item.name + ', ';
+      if (item.used) {
+        suppliments = suppliments + item.name + ', ';
+      }
     }
-
-    suppliments = suppliments.substring(0, suppliments.length - 2);
+    if (suppliments.length > 2) {
+      suppliments = suppliments.substring(0, suppliments.length - 2);
+    }
   }
   @override
   Widget build(BuildContext context) {

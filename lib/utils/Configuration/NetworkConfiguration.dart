@@ -4,13 +4,15 @@ class NetworkConfiguration {
       NetworkConfiguration._privateConstructor();
   factory NetworkConfiguration() => _instance;
 
-  String address = 'http://thefir.ddns.net:5050';
+  String address = 'http://thefircoffe.ddns.net:5050';
   Map controllersMap = {
-    'coffehouse_get': "/coffehouse/get_coffe_house",
-    'delete_file': "/delete_file",
+    'order': "/controllers/order",
+    'coffes': "/controller/coffes",
+    'coffe': "/controller/coffe",
+    'coffehouse': "/controllers/coffehouse",
     'upload_file': "/upload_file",
-    'update_coffe_house': '/coffehouse/update_coffe_house',
-    'create_coffe': '/coffehouse/create_coffe',
+    'client': '/controllers/client',
+    'auth': '/security/auth',
     'coffe_get': '/coffehouse/get_coffe',
     'coffe_delete': '/coffehouse/delete_coffe',
   };

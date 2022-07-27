@@ -18,6 +18,9 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <meta-data 
+              android:name="com.google.android.geo.API_KEY"
+              android:value="AIzaSyBVVvIkcxvTMWlnFNylk0k9FIaPJXI6uvk"/>
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual
@@ -37,6 +40,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

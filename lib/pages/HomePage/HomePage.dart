@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import '/Dialogs/EditCarouselDialog.dart';
+import 'package:coffe/pages/HomePage/MapPage.dart';
 import '/MyWidgets/Carousel.dart';
 import '/MyWidgets/DishView.dart';
 import '/controllers/CoffeHouseObject.dart';
@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Это написал я
     double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     var coffes = Provider.of<CoffeHouse>(context, listen: true).coffes;
     List<Widget> cof = [];
     for (var coffe in coffes) {
@@ -58,20 +59,32 @@ class HomePage extends StatelessWidget {
         delegate: SliverChildListDelegate(
           [
             Card(
+                elevation: 10,
                 child: Column(children: [
-              Row(children: [
-                Text('Адрес   '),
-                Text(Provider.of<CoffeHouse>(context, listen: true).address),
-              ]),
-              Row(children: [
-                Text('Телефон   '),
-                Text(Provider.of<CoffeHouse>(context, listen: true).phone),
-              ]),
-              Row(children: [
-                Text('Email   '),
-                Text(Provider.of<CoffeHouse>(context, listen: true).email),
-              ]),
-            ])),
+                  Row(children: [
+                    Text('Адрес   '),
+                    Text(
+                        Provider.of<CoffeHouse>(context, listen: true).address),
+                  ]),
+                  Row(children: [
+                    Text('Телефон   '),
+                    Text(Provider.of<CoffeHouse>(context, listen: true).phone),
+                  ]),
+                  Row(children: [
+                    Text('Email   '),
+                    Text(Provider.of<CoffeHouse>(context, listen: true).email),
+                  ]),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => MapPage()));
+                      },
+                      child: CachedNetworkImage(
+                        imageUrl: 'http://thefircoffe.ddns.net/place.png',
+                        width: width,
+                      )),
+                  SizedBox(height: 15),
+                ])),
             ListView.builder(
                 itemCount: (cof.length / 2).ceil().toInt(),
                 physics: NeverScrollableScrollPhysics(),

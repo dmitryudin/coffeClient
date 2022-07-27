@@ -4,7 +4,7 @@ import '/controllers/CoffeHouseObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controllers/DishObject.dart';
+import '../controllers/CoffeObject.dart';
 
 class DishView extends StatefulWidget {
   Coffe coffe;

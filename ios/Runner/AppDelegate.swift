@@ -1,6 +1,13 @@
 import UIKit
 import Flutter
 
+
+#include "AppDelegate.h"
+#include "GeneratedPluginRegistrant.h"
+
+
+
+
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
@@ -8,6 +15,7 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    GMSServices.provideAPIKey("AIzaSyBVVvIkcxvTMWlnFNylk0k9FIaPJXI6uvk")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -1,9 +1,12 @@
+import 'package:coffe/controllers/OrdersObject.dart';
 import 'package:flutter/cupertino.dart';
-import '../controllers/DishObject.dart';
+import 'CoffeObject.dart';
 
 class BasketObject with ChangeNotifier {
   List<Coffe> coffePositions = [];
   double total = 0.0;
+
+  
 
   List<Coffe> packOrder(List<Coffe> coffePositions) {
     List<Coffe> tempCoffe = [];

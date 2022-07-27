@@ -52,16 +52,20 @@ class Coffe with ChangeNotifier {
   String description = '';
   List<Volume> priceOfVolume = [];
   List<Property> properties = [];
-  late var selectedVolume;
+  late Volume selectedVolume;
+
   String toJson() {
     Map<String, dynamic> data = {};
     data['name'] = name;
-    data['picture'] = picture;
-    data['description'] = description;
-    data['category'] = category;
-    data['priceOfVolume'] =
-        priceOfVolume.map((e) => jsonDecode(e.toJson())).toList();
-    data['properties'] = properties.map((e) => jsonDecode(e.toJson())).toList();
+    data['count'] = count;
+    //data['picture'] = picture;
+    //data['description'] = description;
+    //data['category'] = category;
+    data['selected_volume'] = (selectedVolume.volume).toString();
+    data['price'] = total;
+    data['properties'] = properties.map((Property e) {
+      if (e.used) return jsonDecode(e.toJson());
+    }).toList();
     String json = jsonEncode(data);
 
     return json;

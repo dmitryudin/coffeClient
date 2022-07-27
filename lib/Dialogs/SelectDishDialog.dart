@@ -4,7 +4,7 @@ import '../MyWidgets/CounterWidget.dart';
 import '/MyWidgets/AddPicture.dart';
 import '/MyWidgets/DropListWrapper.dart';
 import '/controllers/CoffeHouseObject.dart';
-import '/controllers/DishObject.dart';
+import '../controllers/CoffeObject.dart';
 import '/utils/Network/RestController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +64,9 @@ class SelectDishDialogState extends State<SelectDishDialog> {
                 MaterialStateColor.resolveWith((states) => Colors.green),
             value: volume,
             groupValue: coffe.selectedVolume,
-            onChanged: (value) {
+            onChanged: (Volume? value) {
               setState(() {
-                coffe.selectedVolume = value;
+                coffe.selectedVolume = value!;
               });
             }),
       ]));

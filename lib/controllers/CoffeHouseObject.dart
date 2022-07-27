@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import '../configuration/NetworkConfiguration.dart';
-import 'DishObject.dart';
+
+import 'CoffeObject.dart';
 import 'OrdersObject.dart';
 import '../utils/Network/RestController.dart';
 
@@ -18,16 +18,16 @@ class CoffeHouse with ChangeNotifier {
   String token = '';
   List<String> photos = [];
   List<Coffe> coffes = [];
-  List<Order> orders = [];
+  List<OrderObject> orders = [];
 
   CoffeHouse() {
     getMainData();
-    //getCoffes();
   }
 
   void getCoffes() {
-    RestController().sendPostRequest(
-        onComplete: ({required String data}) {
+    //  accessToken: '');
+    RestController().sendGetRequest(
+        onComplete: ({required String data, required int statusCode}) {
           List<dynamic> json = jsonDecode(data);
           this.coffes.clear();
           for (var coffe in json) {
@@ -35,19 +35,19 @@ class CoffeHouse with ChangeNotifier {
           }
           notifyListeners();
         },
-        onError: ({required String data}) {},
-        controller: 'coffe_get',
+        onError: ({required int statusCode}) {},
+        controller: 'coffes',
         data: '');
   }
 
   getMainData() {
-    RestController().sendPostRequest(
-        onComplete: ({required String data}) {
+    RestController().sendGetRequest(
+        onComplete: ({required String data, required int statusCode}) {
           onMainDataAccepted(data);
           getCoffes();
         },
-        onError: ({required String data}) {},
-        controller: 'coffehouse_get',
+        onError: ({required int statusCode}) {},
+        controller: 'coffehouse',
         data: '');
     /*основная информация включает в себя основные текстовые данные и меню*/
   }
@@ -62,7 +62,6 @@ class CoffeHouse with ChangeNotifier {
     address = json['address'];
     List d = json['photos'];
     photos = d.map((e) => e.toString()).toList();
-
     notifyListeners();
   }
 
@@ -77,13 +76,5 @@ class CoffeHouse with ChangeNotifier {
     data['photos'] = photos;
     print(data);
     return jsonEncode(data);
-  }
-
-  void updateMainInformation() {
-    RestController().sendPostRequest(
-        onComplete: ({required String data}) {},
-        onError: ({required String data}) {},
-        controller: 'update_coffe_house',
-        data: this.toJson());
   }
 }

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '/Dialogs/EditCarouselDialog.dart';
 import '/controllers/CoffeHouseObject.dart';
 import '/utils/Notifications/NotificationController.dart';
 

@@ -1,11 +1,11 @@
-import 'package:coffe/payments/SberAcquiring.dart';
-
+import 'package:coffe/controllers/OrdersObject.dart';
+import 'package:coffe/utils/payments/SberAcquiring.dart';
 import '/MyWidgets/PositionCard.dart';
-
 import '/controllers/BasketObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'OrderPage.dart';
 
 class BasketPage extends StatefulWidget {
   @override
@@ -45,10 +45,15 @@ class BasketPageState extends State<BasketPage> {
           Text('Итого: ' + basket.total.toString()),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PayView()));
+                Provider.of<OrderObject>(context, listen: false).basketObject =
+                    basket;
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderPage())); //PayView()));
               },
-              child: Text('Оплатить'))
+              child: Text('Оформить заказ'))
         ],
       ));
       return Scaffold(
