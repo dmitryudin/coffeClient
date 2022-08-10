@@ -98,7 +98,7 @@ class Coffe with ChangeNotifier {
     return deepCoffeCopy;
   }
 
-  bool compareLists(List list1, list2) {
+  bool _compareCoffeLists(List list1, list2) {
     if (list1.length == list2.length) {
       for (int i = 0; i < list1.length; i++) {
         if ((list1[i].name != list2[i].name) ||
@@ -119,7 +119,7 @@ class Coffe with ChangeNotifier {
         template.count == int.parse(this.count.toString()) &&
         template.description == this.description &&
         template.priceOfVolume.toString() == this.priceOfVolume.toString() &&
-        compareLists(template.properties, this.properties) &&
+        _compareCoffeLists(template.properties, this.properties) &&
         template.selectedVolume.volume == this.selectedVolume.volume);
   }
 

@@ -6,8 +6,6 @@ class BasketObject with ChangeNotifier {
   List<Coffe> coffePositions = [];
   double total = 0.0;
 
-  
-
   List<Coffe> packOrder(List<Coffe> coffePositions) {
     List<Coffe> tempCoffe = [];
     for (var coffe in coffePositions) {
