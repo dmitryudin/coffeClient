@@ -5,36 +5,6 @@ import 'package:flutter/cupertino.dart';
 import '../utils/Network/RestController.dart';
 import 'CoffeObject.dart';
 
-class UnpackedProperty {
-  String name = '';
-  UnpackedProperty.fromJson(jsonString) {
-    name = jsonString['name'];
-    print('Добавка $name');
-  }
-}
-
-class UnpackedCoffe {
-  String name = '';
-  String volume = '';
-  double price = 0.0;
-  int count = 0;
-  List<UnpackedProperty> unpackedProperties = [];
-  UnpackedCoffe.fromJson({required dynamic jsonString}) {
-    name = jsonString['name'];
-    volume = jsonString['selected_volume'];
-    price = jsonString['price'];
-    count = int.parse(jsonString['count'].toString());
-
-    if (jsonString['properties'].toString() != '[null]')
-      unpackedProperties = (jsonString['properties'] as List)
-          .map((e) => UnpackedProperty.fromJson(e))
-          .toList();
-    print('Название напитка $name');
-    print('Объем напитка $volume');
-    print('Стоимость позиции $price');
-  }
-}
-
 class OrderObject with ChangeNotifier {
   late BasketObject basketObject;
   int idPayment = -1;
@@ -42,8 +12,9 @@ class OrderObject with ChangeNotifier {
   String requiredDateTime = '';
   bool isComplete = false;
   double totalCost = 0.0;
+  List<Coffe> unpackedCoffe = [];
+
   OrderObject();
-  List<UnpackedCoffe> unpackedCoffe = [];
 
   void sendOrder() {
     RestController().sendPostRequest(
@@ -77,7 +48,7 @@ class OrderObject with ChangeNotifier {
     onPlace = jsonString['on_place'];
     totalCost = jsonString['total_cost'];
     unpackedCoffe = (jsonString['order'] as List)
-        .map((item) => UnpackedCoffe.fromJson(jsonString: item))
+        .map((item) => Coffe.fromOrderJson(jsonEncode(item)))
         .toList();
     print('----------------------------------------------------');
     print('айди платежа $idPayment');

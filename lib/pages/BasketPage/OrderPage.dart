@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/BasketObject.dart';
+import '../../controllers/CoffeObject.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class OrderPageState extends State<OrderPage> {
     OrderObject newOrderObject = OrderObject.fromJson(orderObject.toJson());
 
     List<Widget> coffeLines = [];
-    for (UnpackedCoffe line in newOrderObject.unpackedCoffe) {
+    for (Coffe line in newOrderObject.unpackedCoffe) {
       coffeLines.add(Container(
           width: width * 0.85,
           child: Column(children: [
@@ -39,7 +40,7 @@ class OrderPageState extends State<OrderPage> {
               ),
               Expanded(
                 child: Text(
-                  line.volume + ' мл',
+                  line.selectedVolume.volume.toString() + ' мл',
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.blue, fontSize: 20),
                 ),
@@ -56,7 +57,7 @@ class OrderPageState extends State<OrderPage> {
                         fontSize: 15)),
                 Text(
                   '    ' +
-                      line.unpackedProperties
+                      line.properties
                           .map((e) => e.name)
                           .toList()
                           .toString()
@@ -89,7 +90,7 @@ class OrderPageState extends State<OrderPage> {
               ),
               Expanded(
                 child: Text(
-                  line.price.toString(),
+                  line.total.toString(),
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.blue, fontSize: 15),
                 ),

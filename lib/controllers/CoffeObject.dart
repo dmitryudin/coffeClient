@@ -18,6 +18,8 @@ class Property {
   }
 
   Property.fromJsonString({jsonString}) {
+    if (jsonString == null) return;
+    print('json string $jsonString');
     name = jsonString['name'];
     price = jsonString['price'];
     used = false;
@@ -30,7 +32,7 @@ class Volume {
   double price = 0;
   Volume.fromJsonString({jsonString}) {
     volume = jsonString['volume'];
-    price = jsonString['price'];
+    price = double.parse(jsonString['price'].toString());
   }
   String toJson() {
     Map<String, dynamic> data = {};
@@ -71,7 +73,7 @@ class Coffe with ChangeNotifier {
     return json;
   }
 
-  Coffe.fromJson(var data) {
+  Coffe.fromJson(String data) {
     Map<String, dynamic> jsonString = jsonDecode(data);
     name = jsonString['name'];
     id = jsonString['id'];
@@ -79,9 +81,18 @@ class Coffe with ChangeNotifier {
     category = jsonString['category'];
     if (!jsonString['photo'].isEmpty) picture = jsonString['photo'].last;
     for (var el in jsonString['volumes'])
-      this.priceOfVolume.add(Volume.fromJsonString(jsonString: el));
+      priceOfVolume.add(Volume.fromJsonString(jsonString: el));
     for (var el in jsonString['suppliments'])
-      this.properties.add(Property.fromJsonString(jsonString: el));
+      properties.add(Property.fromJsonString(jsonString: el));
+  }
+
+  Coffe.fromOrderJson(String data) {
+    Map<String, dynamic> jsonString = jsonDecode(data);
+    name = jsonString['name'];
+    selectedVolume = Volume();
+    selectedVolume.volume = double.parse(jsonString['selected_volume']);
+    for (var el in jsonString['properties'])
+      properties.add(Property.fromJsonString(jsonString: el));
   }
 
   Coffe getDeepCopy() {
