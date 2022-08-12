@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffe/MyWidgets/AboutWidget.dart';
 import 'package:coffe/pages/HomePage/MapPage.dart';
+import 'package:coffe/utils/Configuration/ThemeData.dart';
 import '/MyWidgets/Carousel.dart';
 import '/MyWidgets/DishView.dart';
 import '/controllers/CoffeHouseObject.dart';
@@ -31,8 +33,10 @@ class HomePage extends StatelessWidget {
           flexibleSpace: Stack(children: [
             Positioned(
                 child: FlexibleSpaceBar(
-                  title:
-                      Text(Provider.of<CoffeHouse>(context, listen: true).name),
+                  title: Text(
+                    Provider.of<CoffeHouse>(context, listen: true).name,
+                    style: MyTheme().thefirNameStyle,
+                  ),
                   background: Carousel(),
                 ),
                 top: 0,
@@ -44,7 +48,7 @@ class HomePage extends StatelessWidget {
                 height: 20,
                 //child: Card(),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: MyTheme().kBackgroundColor,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25)),
@@ -58,33 +62,12 @@ class HomePage extends StatelessWidget {
       SliverList(
         delegate: SliverChildListDelegate(
           [
-            Card(
-                elevation: 10,
-                child: Column(children: [
-                  Row(children: [
-                    Text('Адрес   '),
-                    Text(
-                        Provider.of<CoffeHouse>(context, listen: true).address),
-                  ]),
-                  Row(children: [
-                    Text('Телефон   '),
-                    Text(Provider.of<CoffeHouse>(context, listen: true).phone),
-                  ]),
-                  Row(children: [
-                    Text('Email   '),
-                    Text(Provider.of<CoffeHouse>(context, listen: true).email),
-                  ]),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MapPage()));
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: 'http://thefircoffe.ddns.net/place.png',
-                        width: width,
-                      )),
-                  SizedBox(height: 15),
-                ])),
+            Align(
+                alignment: Alignment.center, //or choose another Alignment
+                child: SizedBox(
+                    width: width - (0.01 * width),
+                    child: AboutWidget(
+                        Provider.of<CoffeHouse>(context, listen: true)))),
             ListView.builder(
                 itemCount: (cof.length / 2).ceil().toInt(),
                 physics: NeverScrollableScrollPhysics(),

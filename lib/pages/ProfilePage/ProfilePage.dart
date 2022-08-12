@@ -1,22 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffe/controllers/UserProfileObject.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
-  MyWidget createState() {
-    return MyWidget();
+  _ProfilePageState createState() {
+    return _ProfilePageState();
   }
 }
 
-class MyWidget extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    UserProfile userProfile = Provider.of<UserProfile>(context, listen: true);
     return Stack(children: [
       Column(children: [
+        SizedBox(
+          height: 20,
+        ),
         Container(
             height: height / 3,
             decoration: BoxDecoration(
@@ -80,7 +86,7 @@ class MyWidget extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Юдин Дмитрий Алексеевич',
+                  Text(userProfile.name,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           //fontStyle: FontStyle.italic,

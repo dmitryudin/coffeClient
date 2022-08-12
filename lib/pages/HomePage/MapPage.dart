@@ -20,7 +20,7 @@ class MyWidget extends State<MapPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(title: Text('Карта', style: ThemeDatas().text1Style)),
+        appBar: AppBar(title: Text('Карта', style: MyTheme().text1Style)),
         body: Container(
             height: height,
             width: width,

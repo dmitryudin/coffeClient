@@ -1,9 +1,10 @@
-import '/Dialogs/SelectDishDialog.dart';
+import 'package:coffe/Dialogs/SelectDishDialog.dart';
+import 'package:coffe/controllers/CoffeHouseObject.dart';
 
-import '/controllers/CoffeHouseObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../controllers/CoffeObject.dart';
 
 class DishView extends StatefulWidget {
@@ -35,14 +36,16 @@ class MyDishView extends State<DishView> {
         child: Stack(children: [
           Container(
             width: width / 2.05,
-            // height: height / 3,
-            padding: const EdgeInsets.only(top: 2.0),
+            height: height / 2.9,
+            padding: const EdgeInsets.only(top: 4.0),
             margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
-                color: Colors.grey[600]),
+                color: Colors.grey[800]),
             child: Column(children: [
               Container(
+                width: width / 2.15,
+                height: height / 4,
                 padding: EdgeInsets.all(2), // Border width
                 decoration: BoxDecoration(
                     color: Colors.black54,
@@ -58,47 +61,49 @@ class MyDishView extends State<DishView> {
               Text(
                 coffe.name,
                 textDirection: TextDirection.ltr,
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  !coffe.priceOfVolume.isEmpty
-                      ? coffe.priceOfVolume[0].volume.toString()
-                      : '',
-                  textDirection: TextDirection.ltr,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[350],
-                  ),
-                ),
-              ),
-              Container(
-                width: 135,
-                height: 35,
-                margin: const EdgeInsets.only(
-                    bottom:
-                        1.0), //Не могу привязать контейнер c ценой к нижнему краю внешнего контейнера!!!!!!!!!! (Только если каждому элементу добавлять Padding)
-                decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Center(
-                  child: Text(
-                    !coffe.priceOfVolume.isEmpty
-                        ? coffe.priceOfVolume[0].volume.toString()
-                        : '',
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
-                  ),
+                  fontSize: 16,
                 ),
               ),
             ]),
+          ),
+          Positioned(
+            bottom: 55,
+            left: 15,
+            child: Text(
+              !coffe.priceOfVolume.isEmpty
+                  ? '' //coffe.priceOfVolume[0].price.toString()
+                  : '',
+              textDirection: TextDirection.ltr,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[350],
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 8,
+            child: Container(
+              width: width / 2.2,
+              height: height / 18,
+              decoration: BoxDecoration(
+                  color: Colors.black54,
+                  borderRadius: BorderRadius.circular(14.0)),
+              child: Center(
+                child: Text(
+                  !coffe.priceOfVolume.isEmpty
+                      ? 'от ${coffe.priceOfVolume[0].price.toString()} руб.'
+                      : '',
+                  textDirection: TextDirection.ltr,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ),
         ]));
   }

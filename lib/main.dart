@@ -1,9 +1,12 @@
 import 'package:coffe/controllers/OrdersObject.dart';
+import 'package:coffe/controllers/UserProfileObject.dart';
 import 'package:coffe/pages/AuthPage/LoginPage.dart';
-import 'package:coffe/pages/AuthPage/ProfilePage.dart';
+import 'package:coffe/pages/ProfilePage/ProfilePage.dart';
 import 'package:coffe/utils/ChatEngine/ChatController.dart';
 import 'package:coffe/utils/ChatEngine/ChatModel.dart';
+import 'package:coffe/utils/Configuration/ThemeData.dart';
 import 'package:coffe/utils/Security/Auth.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '/pages/HomePage/HomePage.dart';
@@ -50,19 +53,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(MyTheme.mySystemTheme);
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => CoffeHouse()),
           ChangeNotifierProvider(create: (context) => BasketObject()),
           ChangeNotifierProvider(create: (context) => ChatController()),
-          ChangeNotifierProvider(create: (context) => OrderObject())
+          ChangeNotifierProvider(create: (context) => OrderObject()),
+          ChangeNotifierProvider(create: (context) => UserProfile())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: MyTheme().basicTheme(),
           home: page,
         ));
   }
@@ -78,7 +81,18 @@ class MainPage extends StatefulWidget {
 class MyWidget extends State {
   void _onItemTapped(ind) {
     setState(() {
-      Provider.of<CoffeHouse>(context, listen: false).getMainData();
+      switch (ind) {
+        case 0:
+          Provider.of<CoffeHouse>(context, listen: false).getMainData();
+          break;
+        case 2:
+          //Provider.of<CoffeHouse>(context, listen: false).getMainData();
+          break;
+        case 3:
+          Provider.of<UserProfile>(context, listen: false).requestUserData();
+          break;
+      }
+
       index = ind;
     });
   }
