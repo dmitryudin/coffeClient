@@ -34,18 +34,19 @@ class SelectDishDialogState extends State<SelectDishDialog> {
   Widget build(BuildContext context) {
     List<Widget> propertiesWidget = [];
     List<Widget> volumesWidget = [];
-    for (Property property in coffe.properties) {
+    for (int i = 0; i < coffe.properties.length; i++) {
       propertiesWidget.add(Row(children: [
         Expanded(
-          child: Text(property.name),
+          child: Text(coffe.properties[i].name),
           flex: 3,
         ),
-        Text(property.price.toString()),
+        Text(coffe.properties[i].price.toString()),
         Checkbox(
-          value: property.used,
+          value: coffe.properties[i].used,
           onChanged: (value) {
             setState(() {
-              property.used = value;
+              print('used ${value}');
+              coffe.properties[i].used = value;
             });
           },
         ),
@@ -73,7 +74,7 @@ class SelectDishDialogState extends State<SelectDishDialog> {
     }
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
+    double fontSize = width / 25;
     return AlertDialog(
         insetPadding: EdgeInsets.all(20),
         title: Text(
@@ -109,13 +110,14 @@ class SelectDishDialogState extends State<SelectDishDialog> {
               ),
               Row(children: [
                 Expanded(
-                  child: Text('Объем, мл', style: TextStyle(color: Colors.red)),
+                  child: Text('Объем, мл',
+                      style: TextStyle(color: Colors.red, fontSize: fontSize)),
                   flex: 6,
                 ),
                 Expanded(
                   child: Text(
                     'Цена, руб.',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red, fontSize: fontSize),
                   ),
                   flex: 2,
                 ),
@@ -129,13 +131,13 @@ class SelectDishDialogState extends State<SelectDishDialog> {
               Row(children: [
                 Expanded(
                   child: Text('Название добавки',
-                      style: TextStyle(color: Colors.red)),
+                      style: TextStyle(color: Colors.red, fontSize: fontSize)),
                   flex: 6,
                 ),
                 Expanded(
                   child: Text(
                     'Цена, руб.',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red, fontSize: fontSize),
                   ),
                   flex: 2,
                 ),

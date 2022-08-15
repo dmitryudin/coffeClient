@@ -1,6 +1,6 @@
 import 'package:coffe/controllers/OrdersObject.dart';
 import 'package:coffe/utils/payments/SberAcquiring.dart';
-import '/MyWidgets/PositionCard.dart';
+import '../../MyWidgets/PositionWidget.dart';
 import '/controllers/BasketObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class BasketPageState extends State<BasketPage> {
     BasketObject basket = Provider.of<BasketObject>(context);
     List<Widget> positions = [];
     for (var item in basket.coffePositions) {
-      positions.add(PositionCard(coffe: item, key: UniqueKey()));
+      positions.add(PositionWidget(coffe: item, key: UniqueKey()));
     }
     if (basket.coffePositions.isEmpty) {
       return Scaffold(

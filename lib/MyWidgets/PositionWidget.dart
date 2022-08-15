@@ -5,19 +5,19 @@ import 'package:provider/provider.dart';
 import '../controllers/CoffeObject.dart';
 import '../controllers/BasketObject.dart';
 
-class PositionCard extends StatefulWidget {
+class PositionWidget extends StatefulWidget {
   Coffe coffe;
-  PositionCard({required this.coffe, Key? key}) : super(key: key);
+  PositionWidget({required this.coffe, Key? key}) : super(key: key);
 
   @override
-  State<PositionCard> createState() => _PositionCardState(coffe);
+  State<PositionWidget> createState() => _PositionWidgetState(coffe);
 }
 
-class _PositionCardState extends State<PositionCard> {
+class _PositionWidgetState extends State<PositionWidget> {
   Coffe coffe;
   String suppliments = '';
 
-  _PositionCardState(this.coffe) {
+  _PositionWidgetState(this.coffe) {
     for (Property item in coffe.properties) {
       if (item.used) {
         suppliments = suppliments + item.name + ', ';
@@ -37,25 +37,45 @@ class _PositionCardState extends State<PositionCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: coffe.picture,
-              width: width / 3,
+            ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: CachedNetworkImage(
+                  imageUrl: coffe.picture,
+                  width: width / 3,
+                )),
+            VerticalDivider(
+              width: 1,
+              color: Colors.white,
             ),
             SizedBox(
                 width: width - (width / 3) - 10,
                 child: Stack(children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: height / 20,
                         child: ListTile(
-                          title: Text(coffe.name),
-                          tileColor: Color.fromARGB(255, 218, 226, 233),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                  bottomRight: Radius.circular(15),
+                                  bottomLeft: Radius.circular(15))),
+                          title: Text(
+                            coffe.name,
+                          ),
+                          tileColor: Colors.green,
                         ),
+                      ),
+                      SizedBox(
+                        height: height * 0.01,
                       ),
                       Row(
                         children: [
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
                           Expanded(
                             child: Text('Объем ',
                                 style: TextStyle(
@@ -66,7 +86,7 @@ class _PositionCardState extends State<PositionCard> {
                           Expanded(
                             child: Text(
                               coffe.selectedVolume.volume.toString() + ' мл',
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.white),
                             ),
                             flex: 6,
                           ),
@@ -75,6 +95,9 @@ class _PositionCardState extends State<PositionCard> {
                       Divider(color: Colors.grey),
                       Row(
                         children: [
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
                           Expanded(
                             child: Text('Количество ',
                                 style: TextStyle(
@@ -85,7 +108,7 @@ class _PositionCardState extends State<PositionCard> {
                           Expanded(
                             child: Text(
                               coffe.count.toString() + ' шт',
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.white),
                             ),
                             flex: 6,
                           ),
@@ -94,6 +117,9 @@ class _PositionCardState extends State<PositionCard> {
                       Divider(color: Colors.grey),
                       Row(
                         children: [
+                          SizedBox(
+                            width: width * 0.01,
+                          ),
                           Expanded(
                             child: Text('Добавки ',
                                 style: TextStyle(
@@ -104,7 +130,7 @@ class _PositionCardState extends State<PositionCard> {
                           Expanded(
                             child: Text(
                               suppliments,
-                              style: TextStyle(color: Colors.red),
+                              style: TextStyle(color: Colors.white),
                             ),
                             flex: 6,
                           ),
@@ -118,18 +144,21 @@ class _PositionCardState extends State<PositionCard> {
                                 style: TextStyle(
                                     color: Colors.blue,
                                     fontWeight: FontWeight.bold)),
-                            flex: 5,
+                            flex: 1,
                           ),
                           Expanded(
                             child: Text(
                               'Стоимость: ' + coffe.total.toString() + ' руб.',
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 5, 5, 5)),
+                                  color: Color.fromARGB(255, 248, 2, 2)),
                             ),
-                            flex: 6,
+                            flex: 5,
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: height * 0.01,
+                      )
                     ],
                   ),
                   Positioned(
@@ -141,7 +170,7 @@ class _PositionCardState extends State<PositionCard> {
                               .removeCoffe(coffe);
                         },
                         elevation: 2.0,
-                        fillColor: Colors.blue[100],
+                        fillColor: Colors.blue[100]?.withOpacity(0.7),
                         child: Icon(
                           Icons.close_sharp,
                           color: Colors.red,

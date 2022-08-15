@@ -12,13 +12,13 @@ class DishView extends StatefulWidget {
   DishView(this.coffe, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return MyDishView(coffe); // TODO: implement createState
+    return _DishViewState(coffe); // TODO: implement createState
   }
 }
 
-class MyDishView extends State<DishView> {
+class _DishViewState extends State<DishView> {
   late Coffe coffe;
-  MyDishView(this.coffe);
+  _DishViewState(this.coffe);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,8 @@ class MyDishView extends State<DishView> {
             },
           );
         },
-        child: Stack(children: [
+        child: Container(
+            child: Stack(children: [
           Container(
             width: width / 2.05,
             height: height / 2.9,
@@ -105,6 +106,6 @@ class MyDishView extends State<DishView> {
               ),
             ),
           ),
-        ]));
+        ])));
   }
 }

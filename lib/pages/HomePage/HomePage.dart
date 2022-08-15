@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffe/MyWidgets/AboutWidget.dart';
+import 'package:coffe/MyWidgets/AboutCoffeHouseWidget.dart';
 import 'package:coffe/pages/HomePage/MapPage.dart';
 import 'package:coffe/utils/Configuration/ThemeData.dart';
 import '/MyWidgets/Carousel.dart';
-import '/MyWidgets/DishView.dart';
+import '../../MyWidgets/MainCoffeViewWidget.dart';
 import '/controllers/CoffeHouseObject.dart';
 import '/utils/Network/RestController.dart';
 import 'package:flutter/material.dart';
@@ -66,9 +66,10 @@ class HomePage extends StatelessWidget {
                 alignment: Alignment.center, //or choose another Alignment
                 child: SizedBox(
                     width: width - (0.01 * width),
-                    child: AboutWidget(
+                    child: AboutCoffeHouseWidget(
                         Provider.of<CoffeHouse>(context, listen: true)))),
             ListView.builder(
+                padding: EdgeInsets.only(top: 0),
                 itemCount: (cof.length / 2).ceil().toInt(),
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

@@ -5,6 +5,7 @@ import 'CoffeObject.dart';
 class BasketObject with ChangeNotifier {
   List<Coffe> coffePositions = [];
   double total = 0.0;
+  int count = 0;
 
   List<Coffe> packOrder(List<Coffe> coffePositions) {
     List<Coffe> tempCoffe = [];
@@ -32,6 +33,7 @@ class BasketObject with ChangeNotifier {
     }
 
     recurseAlgorithm();
+    this.count = newCoffe.length;
     return newCoffe;
   }
 
@@ -47,6 +49,8 @@ class BasketObject with ChangeNotifier {
 
   void removeCoffe(coffe) {
     coffePositions.remove(coffe);
+    count--;
+    ;
     notifyListeners();
   }
 

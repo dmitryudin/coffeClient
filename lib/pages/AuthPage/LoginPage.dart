@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffe/controllers/CoffeHouseObject.dart';
 import 'package:coffe/pages/AuthPage/RegisterPage.dart';
+import 'package:coffe/utils/Security/Validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/Configuration/ThemeData.dart';
 import '../../utils/Security/Auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String login = '';
   String password = '';
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -51,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                         end: FractionalOffset.bottomCenter,
                         colors: [
                           Color.fromARGB(255, 8, 8, 8).withOpacity(0.0),
-                          Color.fromARGB(255, 238, 237, 237).withOpacity(1.0),
+                          MyTheme().kBackgroundColor.withOpacity(1.0),
                         ],
                       )),
                     )),
@@ -64,31 +68,42 @@ class _LoginPageState extends State<LoginPage> {
         delegate: SliverChildListDelegate([
           Container(
               width: width,
-              height: height - height / 2,
+              height: height,
               decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 7, 7, 7),
                   gradient: LinearGradient(
                     begin: FractionalOffset.topCenter,
                     end: FractionalOffset.bottomCenter,
                     colors: [
-                      Color.fromARGB(255, 238, 237, 237).withOpacity(1.0),
-                      Color.fromARGB(255, 255, 255, 255).withOpacity(1.0),
+                      Color.fromARGB(255, 0, 0, 0).withOpacity(0.0),
+                      Color.fromARGB(255, 255, 255, 255).withOpacity(0.0),
                     ],
                   )),
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Вход',
-                        style: TextStyle(color: Colors.black, fontSize: 26)),
-                    Padding(padding: EdgeInsets.only(top: height * 0.05)),
-                    Container(
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                SizedBox(
+                  height: height * 0.03,
+                ),
+                Text('Вход',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 26)),
+                Padding(padding: EdgeInsets.only(top: height * 0.05)),
+                Form(
+                    key: _formKey,
+                    child: Container(
                       width: width * 0.85,
                       child: Column(children: [
                         TextFormField(
                           //controller: TextEditingController()..text = dateTime,
 
                           //initialValue: dateTime,
-                          validator: (value) {},
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9.,]'))
+                          ],
+                          validator: (value) => Validator.isPhoneValid(value),
                           onChanged: (String value) {
                             login = value;
                           },
@@ -101,9 +116,10 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(padding: EdgeInsets.only(top: height * 0.03)),
                         TextFormField(
                           //controller: TextEditingController()..text = dateTime,
-
+                          obscureText: true,
                           //initialValue: dateTime,
-                          validator: (value) {},
+                          validator: (value) =>
+                              Validator.isPasswordValid(value),
                           onChanged: (String value) {
                             password = value;
                           },
@@ -116,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(padding: EdgeInsets.only(top: height * 0.03)),
                         ElevatedButton(
                             onPressed: () {
+                              _formKey.currentState!.validate();
                               Auth().logIn(login: login, password: password);
                             },
                             child: Text('Войти')),
@@ -132,8 +149,8 @@ class _LoginPageState extends State<LoginPage> {
                           },
                         )
                       ]),
-                    )
-                  ])),
+                    ))
+              ])),
         ]),
       ),
     ]));

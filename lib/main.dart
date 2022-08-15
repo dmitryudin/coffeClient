@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:coffe/controllers/OrdersObject.dart';
 import 'package:coffe/controllers/UserProfileObject.dart';
 import 'package:coffe/pages/AuthPage/LoginPage.dart';
@@ -110,13 +111,29 @@ class MyWidget extends State {
         currentIndex: index,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Главная',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket),
+            icon: new Stack(children: <Widget>[
+              new Icon(
+                Icons.shopping_basket,
+              ),
+              (Provider.of<BasketObject>(context, listen: true).count != 0)
+                  ? Positioned(
+                      // draw a red marble
+                      top: -2.0,
+                      right: 0.0,
+                      child: Badge(
+                        badgeContent: Text(
+                          '${Provider.of<BasketObject>(context, listen: true).count}',
+                          style: TextStyle(fontSize: 9),
+                        ),
+                      ))
+                  : Text('')
+            ]),
             label: 'Корзина',
           ),
           BottomNavigationBarItem(

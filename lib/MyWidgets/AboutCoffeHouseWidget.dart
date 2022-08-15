@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 
 import '../pages/HomePage/MapPage.dart';
 
-class AboutWidget extends StatelessWidget {
+class AboutCoffeHouseWidget extends StatelessWidget {
   CoffeHouse coffeHouse;
-  AboutWidget(this.coffeHouse) {}
+  AboutCoffeHouseWidget(this.coffeHouse) {}
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    double fontSize = height / 50;
     // TODO: implement build
     return Card(
         shape: RoundedRectangleBorder(
@@ -20,7 +21,7 @@ class AboutWidget extends StatelessWidget {
         ),
         semanticContainer: true,
         // clipBehavior: Clip.antiAliasWithSaveLayer,
-        elevation: 10,
+        elevation: 20,
         child: Column(children: [
           ListTile(
               shape: RoundedRectangleBorder(
@@ -35,23 +36,38 @@ class AboutWidget extends StatelessWidget {
                 Row(children: [
                   Text(
                     'Адрес:   ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: fontSize),
                   ),
-                  Text(coffeHouse.address),
+                  Text(
+                    coffeHouse.address,
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, fontSize: fontSize),
+                  ),
                 ]),
                 Row(children: [
                   Text(
                     'Телефон:   ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: fontSize),
                   ),
-                  Text(coffeHouse.phone),
+                  Text(
+                    coffeHouse.phone,
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, fontSize: fontSize),
+                  ),
                 ]),
                 Row(children: [
                   Text(
                     'Email:   ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: fontSize),
                   ),
-                  Text(coffeHouse.email),
+                  Text(
+                    coffeHouse.email,
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic, fontSize: fontSize),
+                  ),
                 ])
               ])),
           GestureDetector(
