@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/BasketObject.dart';
-import '../../controllers/CoffeObject.dart';
+import '../../controllers/DishObject.dart';
 
 class OrderPage extends StatefulWidget {
+  OrderObject? _orderObject;
+  OrderPage(this._orderObject);
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return OrderPageState();
+    return OrderPageState(this._orderObject);
   }
 }
 
@@ -19,14 +21,14 @@ bool valueRadio = true;
 String mytime = '5 минут';
 
 class OrderPageState extends State<OrderPage> {
+  OrderObject? _orderObject;
+  OrderPageState(this._orderObject);
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    OrderObject orderObject = Provider.of<OrderObject>(context, listen: true);
-    OrderObject newOrderObject = OrderObject.fromJson(orderObject.toJson());
 
     List<Widget> coffeLines = [];
-    for (Coffe line in newOrderObject.unpackedCoffe) {
+    for (DishObject line in _orderObject!.basketObject.coffePositions) {
       coffeLines.add(Container(
           width: width * 0.85,
           child: Column(children: [
@@ -40,7 +42,7 @@ class OrderPageState extends State<OrderPage> {
               ),
               Expanded(
                 child: Text(
-                  line.selectedVolume.volume.toString() + ' мл',
+                  line.fieldSelection.selectedField!.name + ' мл',
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.blue, fontSize: 20),
                 ),
@@ -50,27 +52,37 @@ class OrderPageState extends State<OrderPage> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text('Добавки:',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 13, 13, 14),
-                        //  fontWeight: FontWeight.bold,
-                        fontSize: 15)),
-                Text(
-                  '    ' +
-                      line.properties
-                          .map((e) => e.name)
-                          .toList()
-                          .toString()
-                          .replaceAll(new RegExp(r'[^\w\s]'), ''),
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 54, 152, 244), fontSize: 15),
-                ),
+                Expanded(
+                    flex: 1,
+                    child: Text('Добавки:',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            //  fontWeight: FontWeight.bold,
+                            fontSize: 15))),
+                Expanded(
+                    flex: 1,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: line.options.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return line.options[index].isSelected
+                              ? Text(line.options[index].name,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 15))
+                              : Text(line.options[index].name,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 15));
+                        })),
               ],
             ),
             Row(children: [
               Expanded(
                 child: Text('Количество',
-                    style: TextStyle(color: Colors.black, fontSize: 15)),
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 15)),
                 flex: 2,
               ),
               Expanded(
@@ -85,12 +97,14 @@ class OrderPageState extends State<OrderPage> {
             Row(children: [
               Expanded(
                 child: Text('Стоимость',
-                    style: TextStyle(color: Colors.black, fontSize: 15)),
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 15)),
                 flex: 2,
               ),
               Expanded(
                 child: Text(
-                  line.total.toString(),
+                  line.totalCost.toString(),
                   textAlign: TextAlign.right,
                   style: TextStyle(color: Colors.blue, fontSize: 15),
                 ),
@@ -137,7 +151,7 @@ class OrderPageState extends State<OrderPage> {
                             height: 25,
                           ),
                           Text(
-                            'Итого: ${newOrderObject.totalCost} руб.',
+                            'Итого: ${_orderObject!.basketObject.total} руб.',
                             style: TextStyle(
                                 color: Color.fromARGB(255, 243, 33, 33),
                                 fontSize: 25),
@@ -151,29 +165,37 @@ class OrderPageState extends State<OrderPage> {
                           ),
                           Container(
                               width: width * 0.9,
-                              child: Row(children: [
-                                Text('Время готовности:'),
-                                Text(
-                                  ' ' + mytime + ' ',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 243, 33, 33),
-                                      fontSize: 20),
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      DatePicker.showDateTimePicker(
-                                        context,
-                                        locale: LocaleType.ru,
-                                        onConfirm: (time) {
-                                          print('change $time');
-                                          mytime =
-                                              time.toString().substring(0, 16);
-                                          orderObject.requiredDateTime = mytime;
-                                          setState(() {});
-                                        },
-                                      );
-                                    },
-                                    child: Text('Выбрать время'))
+                              child: Column(children: [
+                                Row(children: [
+                                  Text('Время готовности:'),
+                                  Text(
+                                    ' ' + mytime + ' ',
+                                    style: TextStyle(
+                                        color: Color.fromARGB(255, 243, 33, 33),
+                                        fontSize: 20),
+                                  )
+                                ]),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            DatePicker.showDateTimePicker(
+                                              context,
+                                              locale: LocaleType.ru,
+                                              onConfirm: (time) {
+                                                print('change $time');
+                                                mytime = time
+                                                    .toString()
+                                                    .substring(0, 16);
+                                                _orderObject!.requiredDateTime =
+                                                    mytime;
+                                                setState(() {});
+                                              },
+                                            );
+                                          },
+                                          child: Text('Выбрать время'))
+                                    ])
                               ])),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +210,7 @@ class OrderPageState extends State<OrderPage> {
                                     onChanged: (bool? value) {
                                       setState(() {
                                         valueRadio = value!;
-                                        orderObject.onPlace = valueRadio;
+                                        _orderObject!.onPlace = valueRadio;
                                       });
                                     }),
                                 Text('С собой'),
@@ -202,7 +224,7 @@ class OrderPageState extends State<OrderPage> {
                                     onChanged: (bool? value) {
                                       setState(() {
                                         valueRadio = value!;
-                                        orderObject.onPlace = valueRadio;
+                                        _orderObject!.onPlace = valueRadio;
                                       });
                                     }),
                                 Text('На месте'),
@@ -212,7 +234,19 @@ class OrderPageState extends State<OrderPage> {
           ElevatedButton(
             child: Text('Заказать'),
             onPressed: () {
-              orderObject.sendOrder();
+              if (mytime == '5 минут') {
+                _orderObject!.requiredDateTime = new DateTime.now()
+                    .add(new Duration(minutes: 5))
+                    .toString()
+                    .substring(0, 16);
+              }
+              _orderObject!.sendOrder();
+              Provider.of<BasketObject>(context, listen: false).count = 0;
+              Provider.of<BasketObject>(context, listen: false).coffePositions =
+                  [];
+              Provider.of<BasketObject>(context, listen: false)
+                  .notifyListeners();
+              Navigator.pop(context);
             },
           )
         ],

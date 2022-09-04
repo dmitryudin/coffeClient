@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 
-import 'CoffeObject.dart';
+import 'DishObject.dart';
 import 'OrdersObject.dart';
 import '../utils/Network/RestController.dart';
 
@@ -17,7 +17,7 @@ class CoffeHouse with ChangeNotifier {
   double rating = 5.5;
   String token = '';
   List<String> photos = [];
-  List<Coffe> coffes = [];
+  List<DishObject> coffes = [];
   List<OrderObject> orders = [];
 
   CoffeHouse() {
@@ -31,7 +31,8 @@ class CoffeHouse with ChangeNotifier {
           List<dynamic> json = jsonDecode(data);
           this.coffes.clear();
           for (var coffe in json) {
-            this.coffes.add(Coffe.fromJson(jsonEncode(coffe)));
+            this.coffes.add(DishObject.fromJson(jsonEncode(coffe)));
+            notifyListeners();
           }
           notifyListeners();
         },
@@ -45,6 +46,7 @@ class CoffeHouse with ChangeNotifier {
         onComplete: ({required String data, required int statusCode}) {
           onMainDataAccepted(data);
           getCoffes();
+          notifyListeners();
         },
         onError: ({required int statusCode}) {},
         controller: 'coffehouse',

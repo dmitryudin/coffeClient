@@ -1,5 +1,8 @@
+import 'package:coffe/controllers/UserProfileObject.dart';
+import 'package:coffe/pages/ProfilePage/ProfilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ViewEditText extends StatefulWidget {
   TextInputType textType;
@@ -28,7 +31,6 @@ class _ViewEditTextState extends State<ViewEditText> {
       icon = const Icon(Icons.phone, size: 40);
     if (textType == TextInputType.emailAddress)
       icon = const Icon(Icons.email, size: 40);
-    print(data);
   }
   @override
   Widget build(BuildContext context) {

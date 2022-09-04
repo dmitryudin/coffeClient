@@ -76,7 +76,7 @@ class AboutCoffeHouseWidget extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => MapPage()));
               },
               child: CachedNetworkImage(
-                imageUrl: 'http://thefircoffe.ddns.net/place.png',
+                imageUrl: 'http://185.119.58.234/place.png',
                 imageBuilder: (context, imageProvider) => Container(
                   width: width - (width * 0.01),
                   height: height / 3.5,

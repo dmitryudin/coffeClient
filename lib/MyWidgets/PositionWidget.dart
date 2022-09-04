@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controllers/CoffeObject.dart';
+import '../controllers/DishObject.dart';
 import '../controllers/BasketObject.dart';
 
 class PositionWidget extends StatefulWidget {
-  Coffe coffe;
+  DishObject coffe;
   PositionWidget({required this.coffe, Key? key}) : super(key: key);
 
   @override
@@ -14,12 +14,12 @@ class PositionWidget extends StatefulWidget {
 }
 
 class _PositionWidgetState extends State<PositionWidget> {
-  Coffe coffe;
+  DishObject coffe;
   String suppliments = '';
 
   _PositionWidgetState(this.coffe) {
-    for (Property item in coffe.properties) {
-      if (item.used) {
+    for (Option item in coffe.options) {
+      if (item.isSelected) {
         suppliments = suppliments + item.name + ', ';
       }
     }
@@ -52,21 +52,19 @@ class _PositionWidgetState extends State<PositionWidget> {
                 child: Stack(children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: height / 20,
-                        child: ListTile(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
-                                  bottomRight: Radius.circular(15),
-                                  bottomLeft: Radius.circular(15))),
-                          title: Text(
-                            coffe.name,
-                          ),
-                          tileColor: Colors.green,
+                      ListTile(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                                bottomLeft: Radius.circular(15))),
+                        title: Text(
+                          coffe.name,
                         ),
+                        tileColor: Colors.green,
                       ),
                       SizedBox(
                         height: height * 0.01,
@@ -85,7 +83,7 @@ class _PositionWidgetState extends State<PositionWidget> {
                           ),
                           Expanded(
                             child: Text(
-                              coffe.selectedVolume.volume.toString() + ' мл',
+                              coffe.fieldSelection.selectedField!.name + ' мл',
                               style: TextStyle(color: Colors.white),
                             ),
                             flex: 6,
@@ -128,10 +126,16 @@ class _PositionWidgetState extends State<PositionWidget> {
                             flex: 6,
                           ),
                           Expanded(
-                            child: Text(
-                              suppliments,
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: coffe.options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return coffe.options[index].isSelected
+                                      ? Text(coffe.options[index].name,
+                                          style: TextStyle(fontSize: 22))
+                                      : Text(coffe.options[index].name,
+                                          style: TextStyle(fontSize: 22));
+                                }),
                             flex: 6,
                           ),
                         ],
@@ -148,7 +152,9 @@ class _PositionWidgetState extends State<PositionWidget> {
                           ),
                           Expanded(
                             child: Text(
-                              'Стоимость: ' + coffe.total.toString() + ' руб.',
+                              'Стоимость: ' +
+                                  coffe.totalCost.toString() +
+                                  ' руб.',
                               style: TextStyle(
                                   color: Color.fromARGB(255, 248, 2, 2)),
                             ),
@@ -162,7 +168,7 @@ class _PositionWidgetState extends State<PositionWidget> {
                     ],
                   ),
                   Positioned(
-                      top: 0,
+                      top: height * 0.005,
                       right: -15,
                       child: RawMaterialButton(
                         onPressed: () {

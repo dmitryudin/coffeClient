@@ -3,16 +3,18 @@ import 'package:coffe/controllers/BasketObject.dart';
 import 'package:coffe/utils/Security/Auth.dart';
 import 'package:flutter/cupertino.dart';
 import '../utils/Network/RestController.dart';
-import 'CoffeObject.dart';
+import 'DishObject.dart';
 
 class OrderObject with ChangeNotifier {
   late BasketObject basketObject;
   int idPayment = -1;
+  int ids = -1;
   bool onPlace = false;
   String requiredDateTime = '';
   bool isComplete = false;
+  bool isAccepted = false;
   double totalCost = 0.0;
-  List<Coffe> unpackedCoffe = [];
+  List<DishObject> unpackedCoffe = [];
 
   OrderObject();
 
@@ -23,32 +25,37 @@ class OrderObject with ChangeNotifier {
         },
         onError: ({required int statusCode}) {},
         controller: 'order',
-        data: toJson(),
+        data: jsonEncode(toJson()),
         accessToken: Auth().accessToken);
   }
 
-  String toJson() {
+  Map<String, dynamic> toJson() {
     Map<String, dynamic> data = {};
     print(requiredDateTime.toString());
     data['id_payment'] = idPayment;
+
     data['order'] =
         basketObject.coffePositions.map((e) => jsonDecode(e.toJson())).toList();
     data['required_date_time'] = requiredDateTime;
     data['on_place'] = onPlace;
     data['total_cost'] = basketObject.total;
 
-    return (jsonEncode(data));
+    return data;
   }
 
   OrderObject.fromJson(String json) {
-    print(json);
-    Map<String, dynamic> jsonString = jsonDecode(json);
-    idPayment = jsonString['id_payment'];
-    requiredDateTime = jsonString['required_date_time'];
-    onPlace = jsonString['on_place'];
-    totalCost = jsonString['total_cost'];
-    unpackedCoffe = (jsonString['order'] as List)
-        .map((item) => Coffe.fromOrderJson(jsonEncode(item)))
+    Map<String, dynamic> jsonMap = jsonDecode(json);
+    idPayment = jsonMap['id_payment'];
+    ids = jsonMap['id'];
+
+    requiredDateTime = jsonMap['required_datetime'];
+
+    onPlace = jsonMap['on_place'];
+    isAccepted = jsonMap['is_accepted'];
+    totalCost = jsonMap['total_cost'];
+
+    unpackedCoffe = (jsonMap['positions'] as List)
+        .map((item) => DishObject.fromJson(jsonEncode(item)))
         .toList();
     print('----------------------------------------------------');
     print('айди платежа $idPayment');

@@ -4,8 +4,8 @@ import 'package:coffe/utils/Network/RestController.dart';
 import 'package:coffe/utils/Security/Auth.dart';
 import 'package:flutter/cupertino.dart';
 
-class UserProfile extends ChangeNotifier {
-  int id = -1;
+class UserProfile with ChangeNotifier {
+  int ids = -1;
   String name = '';
   String email = '';
   String phone = '';
@@ -16,7 +16,7 @@ class UserProfile extends ChangeNotifier {
     RestController().sendGetRequest(
         onComplete: ({required String data, required int statusCode}) {
           fromJson(data);
-
+          print('profile');
           notifyListeners();
         },
         onError: ({required int statusCode}) {
@@ -28,9 +28,7 @@ class UserProfile extends ChangeNotifier {
     notifyListeners();
   }
 
-  UserProfile() {
-    requestUserData();
-  }
+  UserProfile() {}
 
   String toJson() {
     Map<String, String> data = {};
@@ -42,11 +40,12 @@ class UserProfile extends ChangeNotifier {
 
   fromJson(var data) {
     Map<String, dynamic> json = jsonDecode(data);
-    id = json['id'];
+    ids = json['id'];
     name = json['firstName'];
     email = json['email'];
     bonuses = json['bonuses'];
     qr = json['id'].toString();
     phone = json['phone'];
+    print('sucess');
   }
 }

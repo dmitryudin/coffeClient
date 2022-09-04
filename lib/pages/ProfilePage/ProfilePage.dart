@@ -15,11 +15,23 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  void rebuildAllChildren(BuildContext context) {
+    void rebuild(Element el) {
+      el.markNeedsBuild();
+      el.visitChildren(rebuild);
+    }
+
+    (context as Element).visitChildren(rebuild);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    UserProfile userProfile = Provider.of<UserProfile>(context, listen: true);
+    final userProfile = Provider.of<UserProfile>(context, listen: true);
+    rebuildAllChildren(context);
+
+    //userProfile.addListener(setState())
     return Stack(
       children: [
         Column(children: [
@@ -66,26 +78,107 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             width: width * 0.9,
             child: Column(children: [
-              ViewEditText(
-                data: userProfile.name,
-                onChange: (String value) {},
-                textType: TextInputType.name,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Color.fromARGB(255, 255, 254, 254),
+                  width: 1,
+                )),
+                child: IntrinsicHeight(
+                    child: Row(
+                  children: [
+                    Icon(Icons.person, size: 40),
+                    VerticalDivider(
+                      color: Colors.white,
+                      width: 5,
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      child: Text('${userProfile.name}'),
+                      flex: 7,
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.white,
+                            width: 1,
+                          )),
+                          child: Icon(Icons.edit, size: 40),
+                        ))
+                  ],
+                )),
               ),
               SizedBox(
                 height: height * 0.02,
               ),
-              ViewEditText(
-                data: userProfile.phone,
-                onChange: (String value) {},
-                textType: TextInputType.phone,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Color.fromARGB(255, 255, 254, 254),
+                  width: 1,
+                )),
+                child: IntrinsicHeight(
+                    child: Row(
+                  children: [
+                    Icon(Icons.phone, size: 40),
+                    VerticalDivider(
+                      color: Colors.white,
+                      width: 5,
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      child: Text('${userProfile.phone}'),
+                      flex: 7,
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.white,
+                            width: 1,
+                          )),
+                          child: Icon(Icons.edit, size: 40),
+                        ))
+                  ],
+                )),
               ),
               SizedBox(
                 height: height * 0.02,
               ),
-              ViewEditText(
-                data: userProfile.email,
-                onChange: (String value) {},
-                textType: TextInputType.emailAddress,
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                  color: Color.fromARGB(255, 255, 254, 254),
+                  width: 1,
+                )),
+                child: IntrinsicHeight(
+                    child: Row(
+                  children: [
+                    Icon(Icons.email, size: 40),
+                    VerticalDivider(
+                      color: Colors.white,
+                      width: 5,
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      child: Text('${userProfile.email}'),
+                      flex: 7,
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.white,
+                            width: 1,
+                          )),
+                          child: Icon(Icons.edit, size: 40),
+                        ))
+                  ],
+                )),
               ),
               SizedBox(
                 height: height * 0.02,
@@ -124,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: Colors.white,
                           elevation: 10,
                           child: QrImage(
-                            data: "1234567890",
+                            data: userProfile.ids.toString(),
                             version: QrVersions.auto,
                             size: width * 0.3,
                           ),

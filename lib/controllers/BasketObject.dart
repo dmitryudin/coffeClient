@@ -1,14 +1,14 @@
 import 'package:coffe/controllers/OrdersObject.dart';
 import 'package:flutter/cupertino.dart';
-import 'CoffeObject.dart';
+import 'DishObject.dart';
 
 class BasketObject with ChangeNotifier {
-  List<Coffe> coffePositions = [];
+  List<DishObject> coffePositions = [];
   double total = 0.0;
   int count = 0;
 
-  List<Coffe> packOrder(List<Coffe> coffePositions) {
-    List<Coffe> tempCoffe = [];
+  List<DishObject> packOrder(List<DishObject> coffePositions) {
+    List<DishObject> tempCoffe = [];
     for (var coffe in coffePositions) {
       int countIteration = coffe.count;
       for (int i = 0; i < countIteration; i++) {
@@ -16,13 +16,13 @@ class BasketObject with ChangeNotifier {
         tempCoffe.add(coffe);
       }
     }
-    List<Coffe> newCoffe = [];
+    List<DishObject> newCoffe = [];
     void recurseAlgorithm() {
       if (!tempCoffe.isEmpty) {
-        Coffe coffe = tempCoffe.first;
+        DishObject coffe = tempCoffe.first;
         int count = tempCoffe.where((item) => coffe.compareWith(item)).length;
         print('count $count');
-        Coffe myCoffe = coffe.getDeepCopy();
+        DishObject myCoffe = coffe.getDeepCopy();
         myCoffe.count = count;
         newCoffe.add(myCoffe);
         tempCoffe.removeWhere((element) => coffe.compareWith(element));
@@ -37,11 +37,11 @@ class BasketObject with ChangeNotifier {
     return newCoffe;
   }
 
-  void addCoffe(Coffe coffe) {
+  void addCoffe(DishObject coffe) {
     total = 0;
     coffePositions.add(coffe);
     coffePositions = packOrder(coffePositions);
-    for (Coffe coffe in coffePositions) {
+    for (DishObject coffe in coffePositions) {
       total = total + coffe.getTotal();
     }
     notifyListeners();
@@ -50,7 +50,6 @@ class BasketObject with ChangeNotifier {
   void removeCoffe(coffe) {
     coffePositions.remove(coffe);
     count--;
-    ;
     notifyListeners();
   }
 

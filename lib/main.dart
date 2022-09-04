@@ -1,7 +1,10 @@
 import 'package:badges/badges.dart';
+import 'package:coffe/controllers/OrdersController.dart';
 import 'package:coffe/controllers/OrdersObject.dart';
 import 'package:coffe/controllers/UserProfileObject.dart';
 import 'package:coffe/pages/AuthPage/LoginPage.dart';
+import 'package:coffe/pages/OrdersPage/Orders.dart';
+
 import 'package:coffe/pages/ProfilePage/ProfilePage.dart';
 import 'package:coffe/utils/ChatEngine/ChatController.dart';
 import 'package:coffe/utils/ChatEngine/ChatModel.dart';
@@ -15,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controllers/CoffeHouseObject.dart';
 import 'controllers/BasketObject.dart';
-import '/pages/Orders/Orders.dart';
+
 import '/controllers/CoffeHouseObject.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +28,6 @@ import 'pages/BasketPage/BasketPage.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.registerAdapter(ChatModelAdapter());
-  Hive.registerAdapter(AbonentAdapter());
   runApp(MyApp());
 }
 
@@ -41,8 +42,8 @@ class _MyAppState extends State<MyApp> {
   Widget page = LoginPage();
   _MyAppState() {
     Auth().init(
-        authUrl: 'http://thefircoffe.ddns.net:5050/security/auth',
-        refreshTokenUrl: 'http://thefircoffe.ddns.net:5050/security/refresh',
+        authUrl: 'http://185.119.58.234:5050/security/auth',
+        refreshTokenUrl: 'http://185.119.58.234:5050/security/refresh',
         callback: ({required bool isAuthFlag}) {
           if (isAuthFlag)
             page = MainPage();
@@ -59,9 +60,10 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(create: (context) => CoffeHouse()),
           ChangeNotifierProvider(create: (context) => BasketObject()),
-          ChangeNotifierProvider(create: (context) => ChatController()),
-          ChangeNotifierProvider(create: (context) => OrderObject()),
-          ChangeNotifierProvider(create: (context) => UserProfile())
+          ChangeNotifierProvider(create: (context) => OrderController()),
+          ChangeNotifierProvider<UserProfile>(
+              create: (context) => UserProfile()),
+          ChangeNotifierProvider(create: (context) => OrderObject())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -87,7 +89,8 @@ class MyWidget extends State {
           Provider.of<CoffeHouse>(context, listen: false).getMainData();
           break;
         case 2:
-          //Provider.of<CoffeHouse>(context, listen: false).getMainData();
+          Provider.of<OrderController>(context, listen: false)
+              .getActiveOrders();
           break;
         case 3:
           Provider.of<UserProfile>(context, listen: false).requestUserData();
@@ -99,7 +102,7 @@ class MyWidget extends State {
   }
 
   int index = 0;
-  List<Widget> Screens = [HomePage(), BasketPage(), Orders(), ProfilePage()];
+  List<Widget> Screens = [HomePage(), BasketPage(), OrderPage(), ProfilePage()];
 
   @override
   Widget build(BuildContext context) {

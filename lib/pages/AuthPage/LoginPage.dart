@@ -20,6 +20,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String login = '';
   String password = '';
+  String status = '';
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -129,11 +130,14 @@ class _LoginPageState extends State<LoginPage> {
                             labelText: 'Пароль',
                           ),
                         ),
+                        Text(status, style: TextStyle(color: Colors.red)),
                         Padding(padding: EdgeInsets.only(top: height * 0.03)),
                         ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               _formKey.currentState!.validate();
-                              Auth().logIn(login: login, password: password);
+                              status = await Auth()
+                                  .logIn(login: login, password: password);
+                              setState(() {});
                             },
                             child: Text('Войти')),
                         Padding(padding: EdgeInsets.only(top: height * 0.02)),

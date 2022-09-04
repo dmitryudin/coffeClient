@@ -88,7 +88,7 @@ class RegisterDialogState extends State<RegisterDialog> {
                         //controller: TextEditingController()..text = dateTime,
 
                         //initialValue: dateTime,
-                        validator: (value) {},
+                        validator: (value) => Validator.isPasswordValid(value),
                         onChanged: (String value) {
                           password = value;
                         },

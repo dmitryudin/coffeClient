@@ -51,7 +51,9 @@ class BasketPageState extends State<BasketPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OrderPage())); //PayView()));
+                        builder: (context) => OrderPage(
+                            Provider.of<OrderObject>(context,
+                                listen: true)))); //PayView()));
               },
               child: Text('Оформить заказ'))
         ],

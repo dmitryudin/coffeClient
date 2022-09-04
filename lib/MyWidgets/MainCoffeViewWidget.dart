@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controllers/CoffeObject.dart';
+import '../controllers/DishObject.dart';
 
 class DishView extends StatefulWidget {
-  Coffe coffe;
+  DishObject coffe;
   DishView(this.coffe, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
@@ -17,7 +17,7 @@ class DishView extends StatefulWidget {
 }
 
 class _DishViewState extends State<DishView> {
-  late Coffe coffe;
+  late DishObject coffe;
   _DishViewState(this.coffe);
 
   @override
@@ -69,20 +69,7 @@ class _DishViewState extends State<DishView> {
               ),
             ]),
           ),
-          Positioned(
-            bottom: 55,
-            left: 15,
-            child: Text(
-              !coffe.priceOfVolume.isEmpty
-                  ? '' //coffe.priceOfVolume[0].price.toString()
-                  : '',
-              textDirection: TextDirection.ltr,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[350],
-              ),
-            ),
-          ),
+          Positioned(bottom: 55, left: 15, child: Text("")),
           Positioned(
             bottom: 10,
             left: 8,
@@ -94,8 +81,8 @@ class _DishViewState extends State<DishView> {
                   borderRadius: BorderRadius.circular(14.0)),
               child: Center(
                 child: Text(
-                  !coffe.priceOfVolume.isEmpty
-                      ? 'от ${coffe.priceOfVolume[0].price.toString()} руб.'
+                  !coffe.fieldSelection.fields.isEmpty
+                      ? 'от ${coffe.fieldSelection.fields[0].price.toString()} руб.'
                       : '',
                   textDirection: TextDirection.ltr,
                   style: TextStyle(

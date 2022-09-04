@@ -51,7 +51,8 @@ class Auth {
     });
   }
 
-  void logIn({required String login, required String password}) async {
+  Future<String> logIn(
+      {required String login, required String password}) async {
     print('login $login');
     String basicAuth = 'Basic ' + base64Encode(utf8.encode('$login:$password'));
 
@@ -71,12 +72,15 @@ class Auth {
       box.put('refreshToken', _refreshToken);
       callback(isAuthFlag: true);
       updateToken();
-    } else if (r.statusCode == 404) {
+      return '';
+    } else if ((r.statusCode == 404) | (r.statusCode == 500)) {
       callback(isAuthFlag: false);
+      return 'Ошибочные учётные данные';
       throw Exception('Exception on Auth: user is not found');
     } else {
       callback(isAuthFlag: false);
     }
+    return '';
   }
 
   void logOut() {
